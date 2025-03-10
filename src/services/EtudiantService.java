@@ -1,7 +1,6 @@
 package services;
 
 import beans.Etudiant;
-import beans.Inscription;
 import connexion.Connexion;
 import dao.IDao;
 import java.sql.Date;

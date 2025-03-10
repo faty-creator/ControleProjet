@@ -3,10 +3,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/**
- *
- * @author AMINE
- */
 public class Connexion {
     private static Connexion instance = null;
     private Connection cn = null;

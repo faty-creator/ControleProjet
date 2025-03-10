@@ -75,7 +75,6 @@ public class InscriptionService implements IDao<Inscription> {
 
     @Override
     public Inscription findById(int id) {
-        // This method is not implemented yet
         return null;
     }
 
@@ -87,13 +86,12 @@ public List<Inscription> findAll() {
         PreparedStatement ps = connexion.getCn().prepareStatement(req);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            // Récupérer l'étudiant
             Etudiant etudiant = etudiantService.findById(rs.getInt("etudiant_id"));
-            // Récupérer le cours
+           
             Cours cours = coursService.findById(rs.getInt("cours_id"));
-            // Récupérer la date d'inscription
+            
             Date dateInscription = rs.getDate("date_inscription");
-            // Créer une instance d'Inscription
+           
             inscriptions.add(new Inscription(cours, etudiant, dateInscription));
         }
     } catch (SQLException ex) {

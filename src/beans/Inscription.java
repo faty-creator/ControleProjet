@@ -7,14 +7,13 @@ public class Inscription {
     private Etudiant etudiant;
     private Date dateInscription;
 
-    // Constructeur avec cours, étudiant, et date d'inscription
+    
     public Inscription(Cours cours, Etudiant etudiant, Date dateInscription) {
         this.cours = cours;
         this.etudiant = etudiant;
         this.dateInscription = dateInscription;
     }
 
-    // Getter et setter pour chaque attribut
     public Cours getCours() {
         return cours;
     }
@@ -42,9 +41,11 @@ public class Inscription {
     @Override
     public String toString() {
         return "Inscription{" +
-                "cours=" + cours.getId() + ", " + // ou cours.getIntitule() si vous souhaitez afficher le nom du cours
-                "etudiant=" + etudiant.getId() + ", " + // ou etudiant.getNom() si vous voulez afficher le nom de l'étudiant
+                "cours=" + cours.getId() + ", " + 
+                "etudiant=" + etudiant.getId() + ", " +
                 "dateInscription=" + dateInscription +
                 '}';
     }
+
+    
 }
