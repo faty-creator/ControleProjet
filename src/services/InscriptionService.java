@@ -31,7 +31,7 @@ public class InscriptionService implements IDao<Inscription> {
             PreparedStatement ps = connexion.getCn().prepareStatement(req);
             ps.setInt(1, inscription.getEtudiant().getId());
             ps.setInt(2, inscription.getCours().getId());
-            ps.setDate(3, inscription.getDateInscription());
+            ps.setDate(3, new java.sql.Date(inscription.getDateInscription().getTime()));
             ps.executeUpdate();
             return true;
         } catch (SQLException ex) {
@@ -62,9 +62,7 @@ public class InscriptionService implements IDao<Inscription> {
             PreparedStatement ps = connexion.getCn().prepareStatement(req);
             ps.setInt(1, inscription.getEtudiant().getId());
             ps.setInt(2, inscription.getCours().getId());
-            ps.setDate(3, inscription.getDateInscription());
-            ps.setInt(4, inscription.getEtudiant().getId());
-            ps.setInt(5, inscription.getCours().getId());
+            ps.setDate(3,new java.sql.Date(inscription.getDateInscription().getTime()));
             ps.executeUpdate();
             return true;
         } catch (SQLException ex) {
@@ -79,7 +77,7 @@ public class InscriptionService implements IDao<Inscription> {
     }
 
    @Override
-public List<Inscription> findAll() {
+    public List<Inscription> findAll() {
     List<Inscription> inscriptions = new ArrayList<>();
     String req = "SELECT * FROM inscription";
     try {
@@ -98,5 +96,25 @@ public List<Inscription> findAll() {
         System.out.println(ex.getMessage());
     }
     return inscriptions;
+    
+    }
+    
+     public List<Etudiant> findEtudiantsParCours(int coursId) {
+        List<Etudiant> etudiants = new ArrayList<>();
+        String req = "SELECT e.* FROM etudiant e JOIN inscription i ON e.id = i.etudiant_id WHERE i.cours_id = ?";
+        try {
+            PreparedStatement ps = connexion.getCn().prepareStatement(req);
+            ps.setInt(1, coursId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Etudiant etudiant = new Etudiant(rs.getInt("id"), rs.getString("nom"), rs.getString("prenom"),
+                        rs.getDate("date_naissance"), rs.getString("email"));
+                etudiants.add(etudiant);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return etudiants;
+    
 }
 }

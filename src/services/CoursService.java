@@ -12,6 +12,13 @@ public class CoursService implements IDao<Cours> {
 
     public CoursService() {
         connexion = Connexion.getInstance();
+    
+    
+    if (connexion == null || connexion.getCn() == null) {
+        System.out.println("Erreur de connexion à la base de données !");
+    } else {
+        System.out.println("Connexion réussie !");
+    }
     }
 
     @Override
