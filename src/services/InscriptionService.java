@@ -99,7 +99,7 @@ public class InscriptionService implements IDao<Inscription> {
     
     }
     
-     public List<Etudiant> findEtudiantsParCours(int coursId) {
+     public List<Etudiant> findEtudiantByCourse(int coursId) {
         List<Etudiant> etudiants = new ArrayList<>();
         String req = "SELECT e.* FROM etudiant e JOIN inscription i ON e.id = i.etudiant_id WHERE i.cours_id = ?";
         try {

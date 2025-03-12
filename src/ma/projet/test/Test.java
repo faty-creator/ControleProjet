@@ -1,3 +1,5 @@
+package ma.projet.test;
+
 import beans.Etudiant;
 import beans.Cours;
 import beans.Inscription;
@@ -25,6 +27,8 @@ public class Test {
         es.create(new Etudiant("ben", "sara", Date.valueOf("2001-02-02"), "b.sara@gmail.com"));
         es.create(new Etudiant("alhay", "aya", Date.valueOf("2002-03-03"), "a.aya@gmail.com"));
         
+        
+       
         // Liste des étudiants après ajout
         System.out.println("### Liste des étudiants après ajout ###");
         List<Etudiant> etudiants = es.findAll();
@@ -61,7 +65,7 @@ public class Test {
 
         // Filtrer les étudiants inscrits dans le cours Java
         System.out.println("### Étudiants inscrits dans le cours Java ###");
-        List<Etudiant> etudiantsInJava = is.findEtudiantsParCours(1);  // 1 = ID du cours Java
+        List<Etudiant> etudiantsInJava = is.findEtudiantByCourse(1);  // 1 = ID du cours Java
         for (Etudiant e : etudiantsInJava) {
             System.out.println(e);
         }
@@ -76,11 +80,14 @@ public class Test {
             System.out.println("### Aucun étudiant trouvé avec le nom " + nomRecherche + " ###");
         }
 
+      
         // Afficher les inscriptions de tous les étudiants
         System.out.println("### Liste des inscriptions ###");
         List<Inscription> inscriptions = is.findAll();
         for (Inscription i : inscriptions) {
             System.out.println(i.getEtudiant().getNom() + " -> " + i.getCours().getIntitule());
         }
+        
+
     }
 }
