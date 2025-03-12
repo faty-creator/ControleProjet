@@ -5,21 +5,21 @@ public class Etudiant {
     private int id;
     private String nom;
     private String prenom;
-    private Date date_naissance;
+    private Date dateNaissance;
     private String email;
 
     public Etudiant(int id, String nom, String prenom, Date dateNaissance, String email) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
-        this.date_naissance = dateNaissance;
+        this.dateNaissance = dateNaissance;
         this.email = email;
     }
 
     public Etudiant(String nom, String prenom, Date date_naissance, String email) {
         this.nom = nom;
         this.prenom = prenom;
-        this.date_naissance = date_naissance;
+        this.dateNaissance = date_naissance;
         this.email = email;
     }
 
@@ -34,7 +34,7 @@ public class Etudiant {
         return prenom;
     }
     public Date getDateNaissance() {
-        return date_naissance;
+        return dateNaissance;
     }
     public String getEmail() {
         return email;
@@ -47,7 +47,7 @@ public class Etudiant {
         this.prenom = prenom;
     }
     public void setDateNaissance(Date dateNaissance) {
-        this.date_naissance = dateNaissance;
+        this.dateNaissance = dateNaissance;
     }
     public void setEmail(String email) {
         this.email = email;
@@ -55,6 +55,6 @@ public class Etudiant {
 
     @Override
     public String toString() {
-        return "Etudiant{id=" + id + ", nom='" + nom + "', prenom='" + prenom + "', dateNaissance='" + date_naissance + "', email='" + email + "'}";
+        return "Etudiant{id=" + id + ", nom='" + nom + "', prenom='" + prenom + "', dateNaissance='" + dateNaissance + "', email='" + email + "'}";
     }
 }
