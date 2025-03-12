@@ -56,7 +56,7 @@ public class Test {
 
         // Inscrire un étudiant à un cours
         Etudiant etudiantInscrit = es.findById(1);
-        Cours coursInscription = cs.findById(1); 
+        Cours coursInscription = cs.findById(1);
         if (etudiantInscrit != null && coursInscription != null) {
             Inscription inscription = new Inscription(coursInscription, etudiantInscrit, new Date(System.currentTimeMillis()));
             is.create(inscription);
@@ -65,7 +65,7 @@ public class Test {
         }
 
         // Filtrer les étudiants inscrits dans le cours Java (en utilisant un objet Cours)
-        Cours coursJava = cs.findById(1); 
+        Cours coursJava = cs.findById(1);
         if (coursJava != null) {
             System.out.println("### Étudiants inscrits dans le cours Java ###");
             List<Etudiant> etudiantsInJava = is.findEtudiantByCourse(coursJava);
@@ -90,37 +90,29 @@ public class Test {
         for (Inscription i : inscriptions) {
             System.out.println(i.getEtudiant().getNom() + " -> " + i.getCours().getIntitule());
         }
-        
-        
-        
 
      // Tester la méthode findCourseByStudent
-System.out.println("### Tester findCourseByStudent ###");
+        System.out.println("###  findCourseByStudent ###");
 
+        Etudiant etudiant = es.findById(1);
 
-Etudiant etudiant = es.findById(1);
+        if (etudiant != null) {
+            System.out.println(etudiant.getNom() + " " + etudiant.getPrenom());
 
-if (etudiant != null) {
-    System.out.println("Étudiant : " + etudiant.getNom() + " " + etudiant.getPrenom());
+            List<Cours> coursInscrits = is.findCourseByStudent(etudiant);
 
-   
-    List<Cours> coursInscrits = is.findCourseByStudent(etudiant);
-
-    if (coursInscrits.isEmpty()) {
-        System.out.println("Cet étudiant n'est inscrit à aucun cours.");
-    } else {
-        System.out.println("Cours auxquels l'étudiant est inscrit :");
-        for (Cours c : coursInscrits) {
-            System.out.println(c);
+            if (coursInscrits.isEmpty()) {
+                System.out.println("Cet étudiant n'est pas inscrit ");
+            } else {
+                System.out.println("Cours auxquels l'étudiant est inscrit :");
+                for (Cours c : coursInscrits) {
+                    System.out.println(c);
+                }
+            }
+        } else {
+            System.out.println("Étudiant non trouvé !");
         }
+
     }
-} else {
-    System.out.println("Étudiant non trouvé !");
-}   
- 
-    
-    
-    
-    } 
-    
+
 }

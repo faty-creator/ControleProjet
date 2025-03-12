@@ -1,7 +1,9 @@
- package beans;
+package beans;
+
 import java.sql.*;
 
 public class Etudiant {
+
     private int id;
     private String nom;
     private String prenom;
@@ -23,19 +25,22 @@ public class Etudiant {
         this.email = email;
     }
 
-        
     public int getId() {
         return id;
     }
+
     public String getNom() {
         return nom;
     }
+
     public String getPrenom() {
         return prenom;
     }
+
     public Date getDateNaissance() {
         return dateNaissance;
     }
+
     public String getEmail() {
         return email;
     }
@@ -43,12 +48,15 @@ public class Etudiant {
     public void setNom(String nom) {
         this.nom = nom;
     }
+
     public void setPrenom(String prenom) {
         this.prenom = prenom;
     }
+
     public void setDateNaissance(Date dateNaissance) {
         this.dateNaissance = dateNaissance;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }

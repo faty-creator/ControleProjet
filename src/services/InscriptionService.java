@@ -1,6 +1,5 @@
 package services;
 
-
 import connexion.Connexion;
 import dao.IDao;
 import java.sql.PreparedStatement;
@@ -14,6 +13,7 @@ import beans.Inscription;
 import java.sql.Date;
 
 public class InscriptionService implements IDao<Inscription> {
+
     private Connexion connexion;
     private EtudiantService etudiantService;
     private CoursService coursService;
@@ -63,7 +63,7 @@ public class InscriptionService implements IDao<Inscription> {
             PreparedStatement ps = connexion.getCn().prepareStatement(req);
             ps.setInt(1, inscription.getEtudiant().getId());
             ps.setInt(2, inscription.getCours().getId());
-            ps.setDate(3,new java.sql.Date(inscription.getDateInscription().getTime()));
+            ps.setDate(3, new java.sql.Date(inscription.getDateInscription().getTime()));
             ps.executeUpdate();
             return true;
         } catch (SQLException ex) {
@@ -77,82 +77,78 @@ public class InscriptionService implements IDao<Inscription> {
         return null;
     }
 
-   @Override
+    @Override
     public List<Inscription> findAll() {
-    List<Inscription> inscriptions = new ArrayList<>();
-    String req = "SELECT * FROM inscription";
-    try {
-        PreparedStatement ps = connexion.getCn().prepareStatement(req);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            Etudiant etudiant = etudiantService.findById(rs.getInt("etudiant_id"));
-           
-            Cours cours = coursService.findById(rs.getInt("cours_id"));
-            
-            Date dateInscription = rs.getDate("date_inscription");
-           
-            inscriptions.add(new Inscription(cours, etudiant, dateInscription));
+        List<Inscription> inscriptions = new ArrayList<>();
+        String req = "SELECT * FROM inscription";
+        try {
+            PreparedStatement ps = connexion.getCn().prepareStatement(req);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Etudiant etudiant = etudiantService.findById(rs.getInt("etudiant_id"));
+
+                Cours cours = coursService.findById(rs.getInt("cours_id"));
+
+                Date dateInscription = rs.getDate("date_inscription");
+
+                inscriptions.add(new Inscription(cours, etudiant, dateInscription));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
         }
-    } catch (SQLException ex) {
-        System.out.println(ex.getMessage());
+        return inscriptions;
+
     }
-    return inscriptions;
-    
-    }
-    
+//    methode findEtudiantByCourse
+
     public List<Etudiant> findEtudiantByCourse(Cours cours) {
-    List<Etudiant> etudiants = new ArrayList<>();
-    String req = "SELECT e.* FROM etudiant e JOIN inscription i ON e.id = i.etudiant_id WHERE i.cours_id = ?";
-    try {
-        PreparedStatement ps = connexion.getCn().prepareStatement(req);
-        
- 
-        ps.setInt(1, cours.getId());
-        
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            Etudiant etudiant = new Etudiant(
-                rs.getInt("id"), 
-                rs.getString("nom"), 
-                rs.getString("prenom"),
-                rs.getDate("date_naissance"), 
-                rs.getString("email")
-            );
-            etudiants.add(etudiant);
+        List<Etudiant> etudiants = new ArrayList<>();
+        String req = "SELECT e.* FROM etudiant e JOIN inscription i ON e.id = i.etudiant_id WHERE i.cours_id = ?";
+        try {
+            PreparedStatement ps = connexion.getCn().prepareStatement(req);
+
+            ps.setInt(1, cours.getId());
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Etudiant etudiant = new Etudiant(
+                        rs.getInt("id"),
+                        rs.getString("nom"),
+                        rs.getString("prenom"),
+                        rs.getDate("date_naissance"),
+                        rs.getString("email")
+                );
+                etudiants.add(etudiant);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
         }
-    } catch (SQLException ex) {
-        System.out.println(ex.getMessage());
+        return etudiants;
     }
-    return etudiants;
-}
-    
-    
-    
-    
+
+//    methode findCourseByStudent
     public List<Cours> findCourseByStudent(Etudiant etudiant) {
-    List<Cours> coursList = new ArrayList<>();
-    String req = "SELECT c.* FROM cours c JOIN inscription i ON c.id = i.cours_id WHERE i.etudiant_id = ?";
-    try {
-        PreparedStatement ps = connexion.getCn().prepareStatement(req);
+        List<Cours> coursList = new ArrayList<>();
+        String req = "SELECT c.* FROM cours c JOIN inscription i ON c.id = i.cours_id WHERE i.etudiant_id = ?";
+        try {
+            PreparedStatement ps = connexion.getCn().prepareStatement(req);
 
-        
-        ps.setInt(1, etudiant.getId());
+            ps.setInt(1, etudiant.getId());
 
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            Cours cours = new Cours(
-                rs.getInt("id"),
-                rs.getString("intitule"),
-                rs.getString("professeur"),
-                rs.getString("salle")
-            );
-            coursList.add(cours);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Cours cours = new Cours(
+                        rs.getInt("id"),
+                        rs.getString("intitule"),
+                        rs.getString("professeur"),
+                        rs.getString("salle")
+                );
+                coursList.add(cours);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Erreur lors de la récupération des cours : " + ex.getMessage());
         }
-    } catch (SQLException ex) {
-        System.out.println("Erreur lors de la récupération des cours : " + ex.getMessage());
+        return coursList;
     }
-    return coursList;
-}
-
 
 }

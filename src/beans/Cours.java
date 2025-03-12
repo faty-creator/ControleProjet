@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 // Classe Cours
 package beans;
 
 public class Cours {
+
     private int id;
     private String intitule;
     private String professeur;
@@ -19,22 +19,40 @@ public class Cours {
         this.professeur = professeur;
         this.salle = salle;
     }
-    
-     public Cours( String intitule, String professeur, String salle) {
+
+    public Cours(String intitule, String professeur, String salle) {
         this.intitule = intitule;
         this.professeur = professeur;
         this.salle = salle;
     }
-    
 
-    public int getId() { return id; }
-    public String getIntitule() { return intitule; }
-    public String getProfesseur() { return professeur; }
-    public String getSalle() { return salle; }
+    public int getId() {
+        return id;
+    }
 
-    public void setIntitule(String intitule) { this.intitule = intitule; }
-    public void setProfesseur(String professeur) { this.professeur = professeur; }
-    public void setSalle(String salle) { this.salle = salle; }
+    public String getIntitule() {
+        return intitule;
+    }
+
+    public String getProfesseur() {
+        return professeur;
+    }
+
+    public String getSalle() {
+        return salle;
+    }
+
+    public void setIntitule(String intitule) {
+        this.intitule = intitule;
+    }
+
+    public void setProfesseur(String professeur) {
+        this.professeur = professeur;
+    }
+
+    public void setSalle(String salle) {
+        this.salle = salle;
+    }
 
     @Override
     public String toString() {

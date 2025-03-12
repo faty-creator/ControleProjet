@@ -3,11 +3,11 @@ package beans;
 import java.util.Date;
 
 public class Inscription {
+
     private Cours cours;
     private Etudiant etudiant;
     private Date dateInscription;
 
-    
     public Inscription(Cours cours, Etudiant etudiant, Date dateInscription) {
         this.cours = cours;
         this.etudiant = etudiant;
@@ -40,12 +40,11 @@ public class Inscription {
 
     @Override
     public String toString() {
-        return "Inscription{" +
-                "cours=" + cours.getId() + ", " + 
-                "etudiant=" + etudiant.getId() + ", " +
-                "dateInscription=" + dateInscription +
-                '}';
+        return "Inscription{"
+                + "cours=" + cours.getId() + ", "
+                + "etudiant=" + etudiant.getId() + ", "
+                + "dateInscription=" + dateInscription
+                + '}';
     }
 
-    
 }
