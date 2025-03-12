@@ -26,8 +26,9 @@ public class Test {
         es.create(new Etudiant("khalfi", "ali", Date.valueOf("2000-01-01"), "k.ali@gmail.com"));
         es.create(new Etudiant("ben", "sara", Date.valueOf("2001-02-02"), "b.sara@gmail.com"));
         es.create(new Etudiant("alhay", "aya", Date.valueOf("2002-03-03"), "a.aya@gmail.com"));
-        
-        
+        // Création des inscriptions
+        is.create(new Inscription(cs.findById(3), es.findById(14), new java.util.Date()));
+
        
         // Liste des étudiants après ajout
         System.out.println("### Liste des étudiants après ajout ###");

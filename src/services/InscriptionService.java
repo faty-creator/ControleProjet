@@ -26,12 +26,12 @@ public class InscriptionService implements IDao<Inscription> {
 
     @Override
     public boolean create(Inscription inscription) {
-        String req = "INSERT INTO inscription (etudiant_id, cours_id, date_inscription) VALUES (?, ?, ?)";
+        String req = "INSERT INTO inscription ( cours_id,etudiant_id, date_inscription) VALUES (?, ?, ?)";
         try {
             PreparedStatement ps = connexion.getCn().prepareStatement(req);
-            ps.setInt(1, inscription.getEtudiant().getId());
-            ps.setInt(2, inscription.getCours().getId());
-            ps.setDate(3, new java.sql.Date(inscription.getDateInscription().getTime()));
+            ps.setInt(1, inscription.getCours().getId());
+            ps.setInt(2, inscription.getEtudiant().getId());
+            ps.setDate(3, new Date(inscription.getDateInscription().getTime()));
             ps.executeUpdate();
             return true;
         } catch (SQLException ex) {
