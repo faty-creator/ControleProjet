@@ -31,6 +31,7 @@ public class InscriptionService implements IDao<Inscription> {
             PreparedStatement ps = connexion.getCn().prepareStatement(req);
             ps.setInt(1, inscription.getCours().getId());
             ps.setInt(2, inscription.getEtudiant().getId());
+
             ps.setDate(3, new Date(inscription.getDateInscription().getTime()));
             ps.executeUpdate();
             return true;
@@ -99,22 +100,59 @@ public class InscriptionService implements IDao<Inscription> {
     
     }
     
-     public List<Etudiant> findEtudiantByCourse(int coursId) {
-        List<Etudiant> etudiants = new ArrayList<>();
-        String req = "SELECT e.* FROM etudiant e JOIN inscription i ON e.id = i.etudiant_id WHERE i.cours_id = ?";
-        try {
-            PreparedStatement ps = connexion.getCn().prepareStatement(req);
-            ps.setInt(1, coursId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Etudiant etudiant = new Etudiant(rs.getInt("id"), rs.getString("nom"), rs.getString("prenom"),
-                        rs.getDate("date_naissance"), rs.getString("email"));
-                etudiants.add(etudiant);
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+    public List<Etudiant> findEtudiantByCourse(Cours cours) {
+    List<Etudiant> etudiants = new ArrayList<>();
+    String req = "SELECT e.* FROM etudiant e JOIN inscription i ON e.id = i.etudiant_id WHERE i.cours_id = ?";
+    try {
+        PreparedStatement ps = connexion.getCn().prepareStatement(req);
+        
+ 
+        ps.setInt(1, cours.getId());
+        
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Etudiant etudiant = new Etudiant(
+                rs.getInt("id"), 
+                rs.getString("nom"), 
+                rs.getString("prenom"),
+                rs.getDate("date_naissance"), 
+                rs.getString("email")
+            );
+            etudiants.add(etudiant);
         }
-        return etudiants;
-    
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
+    }
+    return etudiants;
 }
+    
+    
+    
+    
+    public List<Cours> findCourseByStudent(Etudiant etudiant) {
+    List<Cours> coursList = new ArrayList<>();
+    String req = "SELECT c.* FROM cours c JOIN inscription i ON c.id = i.cours_id WHERE i.etudiant_id = ?";
+    try {
+        PreparedStatement ps = connexion.getCn().prepareStatement(req);
+
+        
+        ps.setInt(1, etudiant.getId());
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Cours cours = new Cours(
+                rs.getInt("id"),
+                rs.getString("intitule"),
+                rs.getString("professeur"),
+                rs.getString("salle")
+            );
+            coursList.add(cours);
+        }
+    } catch (SQLException ex) {
+        System.out.println("Erreur lors de la récupération des cours : " + ex.getMessage());
+    }
+    return coursList;
+}
+
+
 }

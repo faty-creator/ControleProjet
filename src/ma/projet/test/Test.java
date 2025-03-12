@@ -12,31 +12,31 @@ import java.util.List;
 public class Test {
 
     public static void main(String[] args) {
-        // Création des services
+        // les services
         EtudiantService es = new EtudiantService();
         CoursService cs = new CoursService();
         InscriptionService is = new InscriptionService();
-        
-        // Création des cours
+
+        // les cours
         cs.create(new Cours("java", "lachgar.mohammed", "i1"));
         cs.create(new Cours("didactique", "n.zahid", "i2"));
         cs.create(new Cours("developpement", "o.stitini", "i3"));
 
-        // Création des étudiants
+        // les étudiants
         es.create(new Etudiant("khalfi", "ali", Date.valueOf("2000-01-01"), "k.ali@gmail.com"));
         es.create(new Etudiant("ben", "sara", Date.valueOf("2001-02-02"), "b.sara@gmail.com"));
         es.create(new Etudiant("alhay", "aya", Date.valueOf("2002-03-03"), "a.aya@gmail.com"));
-        // Création des inscriptions
+
+        // les inscriptions
         is.create(new Inscription(cs.findById(3), es.findById(14), new java.util.Date()));
 
-       
         // Liste des étudiants après ajout
         System.out.println("### Liste des étudiants après ajout ###");
         List<Etudiant> etudiants = es.findAll();
         for (Etudiant e : etudiants) {
             System.out.println(e);
         }
-        
+
         // Modifier un étudiant (changer son nom)
         Etudiant etudiantModif = es.findById(1);
         if (etudiantModif != null) {
@@ -55,8 +55,8 @@ public class Test {
         }
 
         // Inscrire un étudiant à un cours
-        Etudiant etudiantInscrit = es.findById(1); // Etudiant avec id 1
-        Cours coursInscription = cs.findById(1);  // Cours avec id 1
+        Etudiant etudiantInscrit = es.findById(1);
+        Cours coursInscription = cs.findById(1); 
         if (etudiantInscrit != null && coursInscription != null) {
             Inscription inscription = new Inscription(coursInscription, etudiantInscrit, new Date(System.currentTimeMillis()));
             is.create(inscription);
@@ -64,11 +64,14 @@ public class Test {
             System.out.println(inscription);
         }
 
-        // Filtrer les étudiants inscrits dans le cours Java
-        System.out.println("### Étudiants inscrits dans le cours Java ###");
-        List<Etudiant> etudiantsInJava = is.findEtudiantByCourse(1);  // 1 = ID du cours Java
-        for (Etudiant e : etudiantsInJava) {
-            System.out.println(e);
+        // Filtrer les étudiants inscrits dans le cours Java (en utilisant un objet Cours)
+        Cours coursJava = cs.findById(1); 
+        if (coursJava != null) {
+            System.out.println("### Étudiants inscrits dans le cours Java ###");
+            List<Etudiant> etudiantsInJava = is.findEtudiantByCourse(coursJava);
+            for (Etudiant e : etudiantsInJava) {
+                System.out.println(e);
+            }
         }
 
         // Rechercher un étudiant par nom
@@ -81,14 +84,43 @@ public class Test {
             System.out.println("### Aucun étudiant trouvé avec le nom " + nomRecherche + " ###");
         }
 
-      
-        // Afficher les inscriptions de tous les étudiants
+        // Affichage les inscriptions 
         System.out.println("### Liste des inscriptions ###");
         List<Inscription> inscriptions = is.findAll();
         for (Inscription i : inscriptions) {
             System.out.println(i.getEtudiant().getNom() + " -> " + i.getCours().getIntitule());
         }
         
+        
+        
 
+     // Tester la méthode findCourseByStudent
+System.out.println("### Tester findCourseByStudent ###");
+
+
+Etudiant etudiant = es.findById(1);
+
+if (etudiant != null) {
+    System.out.println("Étudiant : " + etudiant.getNom() + " " + etudiant.getPrenom());
+
+   
+    List<Cours> coursInscrits = is.findCourseByStudent(etudiant);
+
+    if (coursInscrits.isEmpty()) {
+        System.out.println("Cet étudiant n'est inscrit à aucun cours.");
+    } else {
+        System.out.println("Cours auxquels l'étudiant est inscrit :");
+        for (Cours c : coursInscrits) {
+            System.out.println(c);
+        }
     }
+} else {
+    System.out.println("Étudiant non trouvé !");
+}   
+ 
+    
+    
+    
+    } 
+    
 }
