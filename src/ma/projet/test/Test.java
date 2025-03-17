@@ -29,6 +29,7 @@ public class Test {
 
         // les inscriptions
         is.create(new Inscription(cs.findById(3), es.findById(14), new java.util.Date()));
+         is.create(new Inscription(cs.findById(3), es.findById(13), new java.util.Date()));
 
         // Liste des étudiants après ajout
         System.out.println("### Liste des étudiants après ajout ###");
@@ -91,7 +92,7 @@ public class Test {
             System.out.println(i.getEtudiant().getNom() + " -> " + i.getCours().getIntitule());
         }
 
-     // Tester la méthode findCourseByStudent
+        // Tester la méthode findCourseByStudent
         System.out.println("###  findCourseByStudent ###");
 
         Etudiant etudiant = es.findById(1);

@@ -17,7 +17,7 @@ public class Etudiant {
         this.dateNaissance = dateNaissance;
         this.email = email;
     }
-
+    
     public Etudiant(String nom, String prenom, Date date_naissance, String email) {
         this.nom = nom;
         this.prenom = prenom;
@@ -63,6 +63,10 @@ public class Etudiant {
 
     @Override
     public String toString() {
-        return "Etudiant{id=" + id + ", nom='" + nom + "', prenom='" + prenom + "', dateNaissance='" + dateNaissance + "', email='" + email + "'}";
+        return  nom ;
     }
+
+   
+
+    
 }

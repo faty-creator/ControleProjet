@@ -101,30 +101,40 @@ public class InscriptionService implements IDao<Inscription> {
     }
 //    methode findEtudiantByCourse
 
-    public List<Etudiant> findEtudiantByCourse(Cours cours) {
-        List<Etudiant> etudiants = new ArrayList<>();
-        String req = "SELECT e.* FROM etudiant e JOIN inscription i ON e.id = i.etudiant_id WHERE i.cours_id = ?";
-        try {
-            PreparedStatement ps = connexion.getCn().prepareStatement(req);
-
-            ps.setInt(1, cours.getId());
-
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Etudiant etudiant = new Etudiant(
-                        rs.getInt("id"),
-                        rs.getString("nom"),
-                        rs.getString("prenom"),
-                        rs.getDate("date_naissance"),
-                        rs.getString("email")
-                );
-                etudiants.add(etudiant);
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+   public List<Etudiant> findEtudiantByCourse(Cours cours) {
+    List<Etudiant> etudiants = new ArrayList<>();
+    // Requête SQL utilisant l'intitulé du cours pour filtrer les étudiants
+    String req = "SELECT e.* FROM étudiant e "
+               + "JOIN inscription i ON e.id = i.etudiant_id "
+               + "JOIN cours c ON i.cours_id = c.id "
+               + "WHERE c.intitule = ?";  // On filtre ici par l'intitulé du cours
+    
+    try {
+        // Préparer la requête SQL
+        PreparedStatement ps = connexion.getCn().prepareStatement(req);
+        ps.setString(1, cours.getIntitule()); // On passe l'intitulé du cours
+        ResultSet rs = ps.executeQuery();
+        
+        // Parcourir le résultat et ajouter les étudiants à la liste
+        while (rs.next()) {
+            Etudiant etudiant = new Etudiant(
+                rs.getInt("id"),
+                rs.getString("nom"),
+                rs.getString("prenom"),
+                rs.getDate("date_naissance"),
+                rs.getString("email")
+            );
+            etudiants.add(etudiant);
         }
-        return etudiants;
+    } catch (SQLException ex) {
+        System.out.println("Erreur lors de la récupération des étudiants : " + ex.getMessage());
     }
+    
+    // Afficher le nombre d'étudiants trouvés pour ce cours
+    System.out.println("Nombre d'étudiants trouvés pour le cours " + cours.getIntitule() + " : " + etudiants.size());
+    return etudiants;
+}
+
 
 //    methode findCourseByStudent
     public List<Cours> findCourseByStudent(Etudiant etudiant) {
@@ -150,5 +160,6 @@ public class InscriptionService implements IDao<Inscription> {
         }
         return coursList;
     }
+  
 
 }

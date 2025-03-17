@@ -14,6 +14,10 @@ public class Inscription {
         this.dateInscription = dateInscription;
     }
 
+    public Inscription(int etudiantId, int coursId, java.sql.Date dateInscription) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public Cours getCours() {
         return cours;
     }
@@ -40,11 +44,9 @@ public class Inscription {
 
     @Override
     public String toString() {
-        return "Inscription{"
-                + "cours=" + cours.getId() + ", "
-                + "etudiant=" + etudiant.getId() + ", "
-                + "dateInscription=" + dateInscription
-                + '}';
+        return  cours.getIntitule();
     }
+
+   
 
 }

@@ -99,4 +99,25 @@ public class CoursService implements IDao<Cours> {
         }
         return coursList;
     }
+
+   public Cours findByIntitule(String intitule) {
+    String req = "SELECT * FROM cours WHERE intitule = ?";
+    try {
+        PreparedStatement ps = connexion.getCn().prepareStatement(req);
+        ps.setString(1, intitule);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return new Cours(
+                rs.getInt("id"),
+                rs.getString("intitule"),
+                rs.getString("professeur"),
+                rs.getString("salle")
+            );
+        }
+    } catch (SQLException ex) {
+        System.out.println("Erreur lors de la recherche du cours : " + ex.getMessage());
+    }
+    return null;
+}
+    
 }

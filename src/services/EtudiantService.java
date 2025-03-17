@@ -152,4 +152,30 @@ public class EtudiantService implements IDao<Etudiant> {
         }
         return null;
     }
+      public Etudiant findByNomAndPrenom(String nom, String prenom) {
+    if (connexion == null || connexion.getCn() == null) {
+        System.out.println("La connexion à la base de données n'est pas initialisée.");
+        return null;
+    }
+
+    String req = "SELECT * FROM étudiant WHERE nom = ? AND prenom = ?";
+    try {
+        PreparedStatement ps = connexion.getCn().prepareStatement(req);
+        ps.setString(1, nom);
+        ps.setString(2, prenom);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return new Etudiant(
+                rs.getInt("id"),
+                rs.getString("nom"),
+                rs.getString("prenom"),
+                rs.getDate("date_naissance"),
+                rs.getString("email")
+            );
+        }
+    } catch (SQLException ex) {
+        System.out.println("Erreur lors de la recherche de l'étudiant par nom et prénom : " + ex.getMessage());
+    }
+    return null;
+}
 }
