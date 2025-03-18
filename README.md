@@ -42,21 +42,29 @@ Etudiant (id, nom, prénom, date_naissance, email)
 
 Cours (id, intitule, professeur, salle)
 
-Inscription (id, etudiant_id, cours_id, date_inscription)
+Inscription ( etudiant_id, cours_id, date_inscription)
 
 
 ---
 ## Fonctionnalités Principales:
 
--**Gestion des étudiants** : Ajout, modification et suppression d'étudiants.
+### 1. Gestion des étudiants
+- **Ajouter un étudiant** : Formulaire pour saisir le nom, prénom, date de naissance, etc.
+- **Modifier un étudiant** : Mettre à jour les informations d'un étudiant existant.
+- **Supprimer un étudiant** : Retirer un étudiant de la base de données.
 
--**Inscription des étudiants aux cours** : Gestion des inscriptions et des retraits d'étudiants.
+### 2. Inscription des étudiants aux cours
+- **Inscrire un étudiant à un cours** : Sélectionner un étudiant et un cours dans des listes déroulantes.
+- **Retirer un étudiant d'un cours** : Désinscrire un étudiant d'un cours sélectionné.
 
--**Filtrage des inscriptions**: Possibilité de filtrer les étudiants par cours.
+### 3. Filtrage des inscriptions
+- **Filtrer les étudiants par cours** : Afficher la liste des étudiants inscrits à un cours spécifique.
+- **Filtrer les cours par étudiant** : Afficher la liste des cours suivis par un étudiant spécifique.
 
--**Recherche d'étudiants** : Recherche rapide d'un étudiant par son nom.
+### 4. Recherche d'étudiants
+- **Recherche par nom** : Entrer le nom d'un étudiant pour afficher ses informations et ses inscriptions.
 
--**Visualisation des données** : Graphique en barres pour représenter le nombre d'étudiants inscrits par cours.
+
 
 ##  Requêtes sql pour la Base de Données
 
