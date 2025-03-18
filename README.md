@@ -15,10 +15,14 @@ Un manque de suivi des étudiants par cours,
 Des difficultés dans la recherche et la gestion des informations académiques,
 
 Une expérience utilisateur peu optimisée pour les administrateurs et les étudiants.
+
+
 ---
 ## Objectif:
 
-L'objectif de ce projet est de développer une application qui facilite la gestion des étudiants et de leurs inscriptions aux cours. 
+L'objectif de ce projet est de développer une application qui facilite la gestion des étudiants et de leurs inscriptions aux cours.
+
+
 ---
 ## L'application doit :
 
@@ -29,6 +33,8 @@ Optimiser la gestion des étudiants et des cours,
 Offrir des outils de recherche et de filtrage avancés pour une meilleure expérience utilisateur,
 
 Fournir une visualisation claire des inscriptions aux cours.
+
+
 ---
 ## Tables de Données:
 
@@ -37,18 +43,20 @@ Etudiant (id, nom, prénom, date_naissance, email)
 Cours (id, intitule, professeur, salle)
 
 Inscription (id, etudiant_id, cours_id, date_inscription)
+
+
 ---
 ## Fonctionnalités Principales:
 
-Gestion des étudiants : Ajout, modification et suppression d'étudiants.
+-**Gestion des étudiants** : Ajout, modification et suppression d'étudiants.
 
-Inscription des étudiants aux cours : Gestion des inscriptions et des retraits d'étudiants.
+-**Inscription des étudiants aux cours** : Gestion des inscriptions et des retraits d'étudiants.
 
-Filtrage des inscriptions : Possibilité de filtrer les étudiants par cours.
+-**Filtrage des inscriptions**: Possibilité de filtrer les étudiants par cours.
 
-Recherche d'étudiants : Recherche rapide d'un étudiant par son nom.
+-**Recherche d'étudiants** : Recherche rapide d'un étudiant par son nom.
 
-Visualisation des données : Graphique en barres pour représenter le nombre d'étudiants inscrits par cours.
+-**Visualisation des données** : Graphique en barres pour représenter le nombre d'étudiants inscrits par cours.
 
 ##  Requêtes sql pour la Base de Données
 
