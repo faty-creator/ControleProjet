@@ -3,6 +3,7 @@
 ## Contexte :
 
 Dans le cadre de la gestion académique, il est essentiel d'assurer un suivi efficace des étudiants et de leurs inscriptions aux cours. Les méthodes traditionnelles de gestion manuelle ou basées sur des fichiers statiques peuvent conduire à des erreurs, une perte de temps et une mauvaise organisation. Un système informatisé permettrait une gestion plus fluide et efficace des inscriptions aux cours, tout en offrant une meilleure expérience aux étudiants et aux administrateurs.
+
 ---
 ## Problématique:
 
@@ -34,6 +35,15 @@ Offrir des outils de recherche et de filtrage avancés pour une meilleure expér
 
 Fournir une visualisation claire des inscriptions aux cours.
 
+---
+## Diagramme use case:
+
+![Diagramme use case ](diagrammeImages/usaCase.png) 
+
+---
+## Diagramme de classe :
+
+![Diagramme de classe  ](diagrammeImages/class.png) 
 
 ---
 ## Tables de Données:
@@ -65,7 +75,7 @@ Inscription ( etudiant_id, cours_id, date_inscription)
 - **Recherche par nom** : Entrer le nom d'un étudiant pour afficher ses informations et ses inscriptions.
 
 
-
+---
 ##  Requêtes sql pour la Base de Données
 
 ### Tables
@@ -106,4 +116,15 @@ CREATE TABLE user (
 ) ;
 ```
 
-### Technologies Utilisées:
+
+---
+## Technologies Utilisées:
+
+- **Framework d'interface graphique :** Java Swing
+- **Base de données :** MySQL
+- **Accès aux données :** JDBC
+- **Outils de développement :**
+NetBeans (IDE Java)
+StarUml (Outil de diagramme)
+- **Gestion de base de données :** phpMyAdmin
+- **Bibliothèque d'icônes :** Icons8
