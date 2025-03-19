@@ -43,7 +43,7 @@ Fournir une visualisation claire des inscriptions aux cours.
 ---
 ## Diagramme de classe :
 
-![Diagramme de classe  ](diagrammeImages/class.png) 
+![Diagramme de classe  ](diagrammeImages/image.png) 
 
 ---
 ## Tables de Données:

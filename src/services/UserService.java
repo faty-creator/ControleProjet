@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Random;
 
 
 
@@ -67,5 +68,37 @@ public class UserService implements IUserDao {
             System.out.println(ex.getMessage());
         }
         return false;
+    }
+    public String resetPassword(String login) {
+        String newPassword = generateTemporaryPassword();
+        String query = "UPDATE user SET password = SHA1(?) WHERE login = ?";
+        
+        try {
+            PreparedStatement pstmt = connexion.getCn().prepareStatement(query);
+            pstmt.setString(1, newPassword);
+            pstmt.setString(2, login);
+            
+            int rowsUpdated = pstmt.executeUpdate();
+            
+            if (rowsUpdated > 0) {
+                return newPassword; // Mot de passe temporaire généré
+            } else {
+                return null; // L'utilisateur n'existe pas
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la réinitialisation du mot de passe : " + e.getMessage());
+            
+        }
+        return null;
+    }
+    
+    private String generateTemporaryPassword() {
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder(8);
+        for (int i = 0; i < 8; i++) {
+            sb.append(chars.charAt(random.nextInt(chars.length())));
+        }
+        return sb.toString();
     }
 }

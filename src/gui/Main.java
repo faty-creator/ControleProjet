@@ -8,6 +8,7 @@ package gui;
 import javax.swing.JOptionPane;
 import services.UserService;
 import gui.MDIApplication;
+import javax.swing.JTextField;
 
 public class Main extends javax.swing.JFrame {
 
@@ -37,6 +38,7 @@ public class Main extends javax.swing.JFrame {
         txtPassWord = new javax.swing.JPasswordField();
         jLabel2 = new javax.swing.JLabel();
         bnConnexion = new javax.swing.JButton();
+        motpass = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
 
@@ -77,19 +79,29 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        motpass.setBackground(new java.awt.Color(153, 153, 255));
+        motpass.setFont(new java.awt.Font("Tahoma", 3, 13)); // NOI18N
+        motpass.setText("mot de passe oublie");
+        motpass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                motpassActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(txtPassWord, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtLogin, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bnConnexion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(112, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtPassWord, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtLogin)
+                    .addComponent(bnConnexion, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(motpass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -102,14 +114,16 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(txtPassWord, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(65, 65, 65)
+                .addGap(56, 56, 56)
                 .addComponent(bnConnexion)
-                .addContainerGap(232, Short.MAX_VALUE))
+                .addGap(57, 57, 57)
+                .addComponent(motpass, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(0, 0, 255));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\pc\\Documents\\NetBeansProjects\\ÉtudiantsInscriptions\\src\\gui\\logo1.jpeg")); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\pc\\Documents\\NetBeansProjects\\ÉtudiantsInscriptions\\src\\gui\\images\\logo1.jpeg")); // NOI18N
         jLabel4.setText("jLabel4");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -185,6 +199,37 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPassWordActionPerformed
 
+    private void motpassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_motpassActionPerformed
+       String login = txtLogin.getText().trim();
+
+        if (login.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Veuillez entrer votre login pour réinitialiser le mot de passe.");
+            txtLogin.requestFocus();
+            return;
+        }
+
+        UserService userService = new UserService();
+        String temporaryPassword = userService.resetPassword(login);
+
+        if (temporaryPassword != null) {
+                JTextField passwordField = new JTextField(temporaryPassword);
+            passwordField.setEditable(true);  // Permet de copier le texte
+            passwordField.setSelectionStart(0);  // Sélectionne le texte automatiquement
+            passwordField.setSelectionEnd(temporaryPassword.length());
+
+            Object[] message = {
+                "Votre mot de passe temporaire est :", passwordField,
+                "Veuillez le copier puis le coller dans le champ de mot de passe pour vous connecter."
+            };
+
+            JOptionPane.showMessageDialog(this, message, "Mot de passe temporaire", JOptionPane.INFORMATION_MESSAGE);
+            txtPassWord.requestFocus(); // Place le curseur dans le champ de mot de passe pour coller facilement
+        } else {
+            JOptionPane.showMessageDialog(this, "Utilisateur non trouvé.");
+            txtLogin.requestFocus();
+        }
+    }//GEN-LAST:event_motpassActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -228,6 +273,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JButton motpass;
     private javax.swing.JTextField txtLogin;
     private javax.swing.JPasswordField txtPassWord;
     // End of variables declaration//GEN-END:variables
