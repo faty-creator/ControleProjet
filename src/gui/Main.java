@@ -5,21 +5,25 @@
  */
 package gui;
 
+import java.util.Random;
 import javax.swing.JOptionPane;
-import services.UserService;
-import gui.MDIApplication;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import services.UserService;
+
+
 
 public class Main extends javax.swing.JFrame {
 
     /**
      * Creates new form Main
      */
-    public Main() {
-        initComponents();
+     public Main() {
+         initComponents();
         this.setTitle("Authentification");
         this.setLocationRelativeTo(null);
     }
+
 
 
     /**
@@ -179,19 +183,22 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_txtLoginActionPerformed
 
     private void bnConnexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnConnexionActionPerformed
- String login = txtLogin.getText().trim();
-    String password = new String(txtPassWord.getPassword()).trim(); // Correction ici : txtPassWord au lieu de txtPassword
+   String login = txtLogin.getText().trim();
+    String password = new String(txtPassWord.getPassword()).trim();
 
     UserService userService = new UserService();
 
     if (userService.authenticate(login, password)) {
-        // Instanciation de MDIApplication
-        MDIApplication mdi = new MDIApplication(); // Ou utilisez MDIApplication.getInstance() si c'est un singleton
+        // Afficher un message de bienvenue
+        JOptionPane.showMessageDialog(this, "Bienvenue sur notre plateforme, " + login + "!");
+
+        MDIApplication mdi = MDIApplication.getInstance();
         mdi.setVisible(true);
-        this.setVisible(false); // Masquer la fenêtre de connexion
+        this.setVisible(false); // Masquer le formulaire de connexion
     } else {
         JOptionPane.showMessageDialog(this, "Login ou mot de passe incorrect");
-    } 
+    }
+
             
     }//GEN-LAST:event_bnConnexionActionPerformed
 
@@ -200,7 +207,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPassWordActionPerformed
 
     private void motpassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_motpassActionPerformed
-       String login = txtLogin.getText().trim();
+         String login = txtLogin.getText().trim();
 
         if (login.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Veuillez entrer votre login pour réinitialiser le mot de passe.");
@@ -212,9 +219,9 @@ public class Main extends javax.swing.JFrame {
         String temporaryPassword = userService.resetPassword(login);
 
         if (temporaryPassword != null) {
-                JTextField passwordField = new JTextField(temporaryPassword);
-            passwordField.setEditable(true);  // Permet de copier le texte
-            passwordField.setSelectionStart(0);  // Sélectionne le texte automatiquement
+            JTextField passwordField = new JTextField(temporaryPassword);
+            passwordField.setEditable(true);
+            passwordField.setSelectionStart(0);
             passwordField.setSelectionEnd(temporaryPassword.length());
 
             Object[] message = {
@@ -223,11 +230,12 @@ public class Main extends javax.swing.JFrame {
             };
 
             JOptionPane.showMessageDialog(this, message, "Mot de passe temporaire", JOptionPane.INFORMATION_MESSAGE);
-            txtPassWord.requestFocus(); // Place le curseur dans le champ de mot de passe pour coller facilement
+            txtPassWord.requestFocus();
         } else {
             JOptionPane.showMessageDialog(this, "Utilisateur non trouvé.");
             txtLogin.requestFocus();
         }
+
     }//GEN-LAST:event_motpassActionPerformed
 
     /**
@@ -265,6 +273,16 @@ public class Main extends javax.swing.JFrame {
         });
     }
 
+    private String generateTemporaryPassword() {
+    String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    Random random = new Random();
+    StringBuilder sb = new StringBuilder(8);
+    for (int i = 0; i < 8; i++) {
+        sb.append(chars.charAt(random.nextInt(chars.length())));
+    }
+    return sb.toString();
+}
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bnConnexion;
     private javax.swing.JLabel jLabel1;
@@ -277,4 +295,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextField txtLogin;
     private javax.swing.JPasswordField txtPassWord;
     // End of variables declaration//GEN-END:variables
+
+   
 }

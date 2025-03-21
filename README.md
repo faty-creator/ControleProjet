@@ -116,6 +116,9 @@ CREATE TABLE user (
 ) ;
 ```
 
+## Architecture:
+
+![Architecture  ](diagrammeArchitectureImages/Architecture.png) 
 
 ---
 ## Technologies Utilisées:

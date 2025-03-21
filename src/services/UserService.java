@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
+import javax.swing.JOptionPane;
 
 
 
@@ -21,8 +22,7 @@ public class UserService implements IUserDao {
     private Connexion connexion;
 
     public UserService() {
-        connexion = Connexion.getInstance();
-    }
+connexion = Connexion.getInstance();    }
 
     @Override
     public boolean addUser(User user) {
@@ -57,40 +57,55 @@ public class UserService implements IUserDao {
 
     @Override
     public boolean authenticate(String login, String password) {
-        String req = "SELECT * FROM user WHERE login = ? AND password = SHA1(?)";
-        try {
-            PreparedStatement ps = connexion.getCn().prepareStatement(req);
-            ps.setString(1, login);
-            ps.setString(2, password);
-            ResultSet rs = ps.executeQuery();
-            return rs.next();
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
+    String req = "SELECT * FROM user WHERE login = ? AND password = SHA1(?)";
+    try {
+        PreparedStatement ps = connexion.getCn().prepareStatement(req);
+        ps.setString(1, login);
+        ps.setString(2, password);
+        ResultSet rs = ps.executeQuery();
+        return rs.next();
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "Erreur de connexion à la base de données : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
         return false;
     }
-    public String resetPassword(String login) {
-        String newPassword = generateTemporaryPassword();
-        String query = "UPDATE user SET password = SHA1(?) WHERE login = ?";
-        
-        try {
-            PreparedStatement pstmt = connexion.getCn().prepareStatement(query);
-            pstmt.setString(1, newPassword);
-            pstmt.setString(2, login);
-            
-            int rowsUpdated = pstmt.executeUpdate();
-            
-            if (rowsUpdated > 0) {
-                return newPassword; // Mot de passe temporaire généré
-            } else {
-                return null; // L'utilisateur n'existe pas
-            }
-        } catch (SQLException e) {
-            System.out.println("Erreur lors de la réinitialisation du mot de passe : " + e.getMessage());
-            
-        }
+}
+   public String resetPassword(String login) {
+    if (login == null || login.trim().isEmpty()) {
+        System.out.println("Le login ne peut pas être null ou vide.");
         return null;
     }
+
+    if (connexion == null) {
+        System.out.println("La connexion à la base de données est null.");
+        return null;
+    }
+
+    Connection cn = connexion.getCn();
+    if (cn == null) {
+        System.out.println("La connexion à la base de données n'a pas pu être établie.");
+        return null;
+    }
+
+    String newPassword = generateTemporaryPassword();
+    String query = "UPDATE user SET password = SHA1(?) WHERE login = ?";
+    
+    try {
+        PreparedStatement pstmt = cn.prepareStatement(query);
+        pstmt.setString(1, newPassword);
+        pstmt.setString(2, login);
+        
+        int rowsUpdated = pstmt.executeUpdate();
+        
+        if (rowsUpdated > 0) {
+            return newPassword; // Mot de passe temporaire généré
+        } else {
+            return null; // L'utilisateur n'existe pas
+        }
+    } catch (SQLException e) {
+        System.out.println("Erreur lors de la réinitialisation du mot de passe : " + e.getMessage());
+    }
+    return null;
+}
     
     private String generateTemporaryPassword() {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

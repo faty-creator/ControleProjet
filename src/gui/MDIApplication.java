@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
  * @author pc
  */
 public class MDIApplication extends javax.swing.JFrame {
-
+private static MDIApplication instance;
     /**
      * Creates new form MDIApplication
      */
@@ -22,7 +22,13 @@ public class MDIApplication extends javax.swing.JFrame {
         this.setExtendedState(MAXIMIZED_BOTH);
 
     }
-
+    public static MDIApplication getInstance() {
+        if (instance == null) {
+            instance = new MDIApplication();
+        }
+        return instance;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -183,7 +189,7 @@ public class MDIApplication extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+      public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -199,6 +205,7 @@ public class MDIApplication extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new MDIApplication().setVisible(true));
     }
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
