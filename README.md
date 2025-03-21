@@ -38,12 +38,12 @@ Fournir une visualisation claire des inscriptions aux cours.
 ---
 ## Diagramme use case:
 
-![Diagramme use case ](diagrammeImages/usaCase.png) 
+![Diagramme use case ](diagrammeArchitectureImages/usaCase.png) 
 
 ---
 ## Diagramme de classe :
 
-![Diagramme de classe  ](diagrammeImages/image.png) 
+![Diagramme de classe  ](diagrammeArchitectureImages/image.png) 
 
 ---
 ## Tables de Données:
