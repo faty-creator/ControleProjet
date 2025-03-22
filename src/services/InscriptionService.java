@@ -12,6 +12,7 @@ import beans.Cours;
 import beans.Inscription;
 import java.sql.Date;
 
+
 public class InscriptionService implements IDao<Inscription> {
 
     private Connexion connexion;
@@ -160,6 +161,8 @@ public class InscriptionService implements IDao<Inscription> {
         }
         return coursList;
     }
+    
+  
   
 
 }
