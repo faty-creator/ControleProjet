@@ -5,7 +5,7 @@
   <img src="src/gui/images/logo.jpg" width="300" alt="EduXGame Logo">
 </div>
 
-est une plateforme de gestion des étudiants et des inscriptions
+Est une plateforme de gestion des étudiants et des inscriptions
 
 
 ---
@@ -18,10 +18,10 @@ est une plateforme de gestion des étudiants et des inscriptions
 - [📊 Diagrammes](#-Diagrammes)
 - [🗃 Tables de Données](#-Tables-de-Données)
 - [✨ Fonctionnalités Principales](#-Fonctionnalités-Principales)
-- [🔍 Requêtes SQL](#-Requêtes-SQL)
+- [🔍 Requêtes SQL](#-Requêtes-sql)
 - [🏛 Architecture](#-Architecture)
 - [🛠 Technologies Utilisées](#-Technologies-Utilisées)
-- [🎥 Démo Vidéo](#-Démo-Vidéo)
+- [🎥 Démo Vidéo](#-Démo-video)
 - [📁 .exe](#-.exe)
 
 ---
@@ -62,12 +62,14 @@ Offrir des outils de recherche et de filtrage avancés pour une meilleure expér
 Fournir une visualisation claire des inscriptions aux cours.
 
 ---
-## 📊 Diagramme use case:
+## 📊 Diagrammes :
+
+##  Diagramme use case:
 
 ![Diagramme use case ](diagrammeArchitectureImages/usaCase.png) 
 
 ---
-## 📊 Diagramme de classe :
+##  Diagramme de classe :
 
 ![Diagramme de classe  ](diagrammeArchitectureImages/ClassDiagramme.png) 
 
@@ -102,7 +104,7 @@ Inscription ( etudiant_id, cours_id, date_inscription)
 
 
 ---
-##  🔍 Requêtes sql pour la Base de Données
+##  🔍 Requêtes sql 
 
 ### Tables
 
@@ -142,7 +144,7 @@ CREATE TABLE user (
 ) ;
 ```
 
-## 🏛  Architecture:
+## 🏛  Architecture
 
 ![Architecture  ](diagrammeArchitectureImages/Architecture.png) 
 
@@ -161,3 +163,4 @@ StarUml (Outil de diagramme)
 ---
 
 ## 🎥 Démo video 
+[🎥 Voir la vidéo](https://github.com/TON_UTILISATEUR/TON_REPO/blob/main/demo%20-%20Made%20with%20Clipchamp.mp4)
