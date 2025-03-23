@@ -1,11 +1,11 @@
-# Gestion des Étudiants et Inscriptions
+# 📚 Gestion des Étudiants et Inscriptions
 
 ## FAeducation:
 <div align="center">
   <img src="src/gui/images/logo.jpg" width="300" alt="EduXGame Logo">
 </div>
 
-Est une plateforme de gestion des étudiants et des inscriptions
+Est une plateforme de gestion des étudiants et des inscriptions .
 
 
 ---
