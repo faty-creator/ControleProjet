@@ -163,4 +163,4 @@ StarUml (Outil de diagramme)
 ---
 
 ## 🎥 Démo video 
-[🎥 Voir la vidéo](https://github.com/TON_UTILISATEUR/TON_REPO/blob/main/demo%20-%20Made%20with%20Clipchamp.mp4)
+https://github.com/user-attachments/assets/79e2ff72-957f-4c00-8d75-cc7b8a502754
