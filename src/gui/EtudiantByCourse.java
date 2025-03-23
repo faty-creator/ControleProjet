@@ -5,23 +5,23 @@
  */
 package gui;
 
-
 import beans.Cours;
 import beans.Etudiant;
 import beans.Inscription;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
-import services.CoursService;
-import services.EtudiantService;
-import services.InscriptionService;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.chart.plot.PlotOrientation;
-import javax.swing.JFrame;
+import org.jfree.data.category.DefaultCategoryDataset;
+import services.CoursService;
+import services.EtudiantService;
+import services.InscriptionService;
+
 /**
  *
  * @author pc
@@ -31,12 +31,15 @@ public class EtudiantByCourse extends javax.swing.JInternalFrame {
     private InscriptionService is;
     private EtudiantService es;
     private CoursService cs;
+    private static EtudiantByCourse instance;
 
     /**
      * Creates new form EtudiantByCourse
      */
     public EtudiantByCourse() {
-    System.out.println("Initialisation de EtudiantByCourse");
+        super("Liste des étudiants par cours", true, true, true, true);
+        setSize(800, 600); // Définir la taille de la fenêtre
+        setDefaultCloseOperation(HIDE_ON_CLOSE); // Fermer la fenêtre sans quitter l'application
         initComponents();
         is = new InscriptionService();
         es = new EtudiantService();
@@ -44,45 +47,56 @@ public class EtudiantByCourse extends javax.swing.JInternalFrame {
         loadEtudiantByCourse();
     }
 
-    void loadEtudiantByCourse() {
-     listeByCourse.removeAllItems();
-    List<Cours> allCourses = cs.findAll();
-    
-    // Utilisation d'un Set pour éliminer les doublons
-    Set<Cours> uniqueCourses = new HashSet<>(allCourses);
-
-    if (uniqueCourses != null && !uniqueCourses.isEmpty()) {
-        for (Cours cours : uniqueCourses) {
-            listeByCourse.addItem(cours);
+    public static EtudiantByCourse getInstance() {
+        if (instance == null || instance.isClosed()) {
+            synchronized (EtudiantByCourse.class) { // Synchronisation pour la sécurité des threads
+                if (instance == null || instance.isClosed()) {
+                    instance = new EtudiantByCourse();
+                }
+            }
         }
-    } else {
-        System.out.println("Aucun cours disponible.");
+        return instance;
     }
+
+    void loadEtudiantByCourse() {
+        listeByCourse.removeAllItems();
+        List<Cours> allCourses = cs.findAll();
+
+        // Utilisation d'un Set pour éliminer les doublons
+        Set<Cours> uniqueCourses = new HashSet<>(allCourses);
+
+        if (uniqueCourses != null && !uniqueCourses.isEmpty()) {
+            for (Cours cours : uniqueCourses) {
+                listeByCourse.addItem(cours);
+            }
+        } else {
+            System.out.println("Aucun cours disponible.");
+        }
     }
 
     void loadStudentsForCourse(Cours cours) {
-         DefaultTableModel model = (DefaultTableModel) tableModel.getModel();
-    model.setRowCount(0); // Clear the table
+        DefaultTableModel model = (DefaultTableModel) tableModel.getModel();
+        model.setRowCount(0); // Effacer le tableau
 
-    List<Etudiant> etudiants = is.findEtudiantByCourse(cours);
-    System.out.println("Nombre d'étudiants à afficher : " + etudiants.size());
+        List<Etudiant> etudiants = is.findEtudiantByCourse(cours);
+        System.out.println("Nombre d'étudiants à afficher : " + etudiants.size());
 
-     if (etudiants != null && !etudiants.isEmpty()) {
-        for (Etudiant etudiant : etudiants) {
-            model.addRow(new Object[]{
-                etudiant.getId(),
-                etudiant.getNom(),
-                etudiant.getPrenom(),
-                etudiant.getDateNaissance(),
-                etudiant.getEmail(),
-                cours.getIntitule()
-            });
-            System.out.println("Étudiant ajouté : " + etudiant.getNom() + " " + etudiant.getPrenom());
+        if (etudiants != null && !etudiants.isEmpty()) {
+            for (Etudiant etudiant : etudiants) {
+                model.addRow(new Object[]{
+                    etudiant.getId(),
+                    etudiant.getNom(),
+                    etudiant.getPrenom(),
+                    etudiant.getDateNaissance(),
+                    etudiant.getEmail(),
+                    cours.getIntitule()
+                });
+                System.out.println("Étudiant ajouté : " + etudiant.getNom() + " " + etudiant.getPrenom());
+            }
+        } else {
+            System.out.println("Aucun étudiant inscrit dans ce cours.");
+            model.addRow(new Object[]{"Aucun étudiant", "", "", "", "", ""});
         }
-    } else {
-        System.out.println("Aucun étudiant inscrit dans ce cours.");
-        model.addRow(new Object[]{"Aucun étudiant", "", "", "", "", ""});
-    }
     }
 
     /**
@@ -92,7 +106,7 @@ public class EtudiantByCourse extends javax.swing.JInternalFrame {
      */
     @SuppressWarnings("unchecked")
 
-    
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -101,7 +115,7 @@ public class EtudiantByCourse extends javax.swing.JInternalFrame {
         listeByCourse = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         graphe = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableModel = new javax.swing.JTable();
 
@@ -111,11 +125,10 @@ public class EtudiantByCourse extends javax.swing.JInternalFrame {
         setResizable(true);
         setName("Liste d'etudiant d'un cours"); // NOI18N
 
-        jPanel1.setBackground(new java.awt.Color(153, 204, 255));
+        jPanel1.setBackground(new java.awt.Color(255, 204, 255));
 
-        jLabel1.setBackground(new java.awt.Color(0, 0, 204));
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 3, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
         jLabel1.setText("Liste des étudiants du cours :");
 
         listeByCourse.addActionListener(new java.awt.event.ActionListener() {
@@ -124,8 +137,10 @@ public class EtudiantByCourse extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/list.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/images/LIST (2).png"))); // NOI18N
 
+        graphe.setBackground(new java.awt.Color(204, 204, 255));
+        graphe.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         graphe.setText("Graphe");
         graphe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,35 +148,42 @@ public class EtudiantByCourse extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 2, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/images/hand.png"))); // NOI18N
+        jLabel3.setText("  Pour voir le graphe, cliquez ici.");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(316, 316, 316)
-                .addComponent(jLabel2)
-                .addGap(45, 45, 45)
+                .addGap(396, 396, 396)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(39, 39, 39)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(graphe, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(listeByCourse, javax.swing.GroupLayout.Alignment.LEADING, 0, 221, Short.MAX_VALUE)))
-                .addContainerGap(370, Short.MAX_VALUE))
+                        .addComponent(graphe, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
+                        .addComponent(listeByCourse, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(442, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(90, 90, 90)
+                .addGap(55, 55, 55)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(listeByCourse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addComponent(listeByCourse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(82, 82, 82)
+                .addComponent(jLabel3)
+                .addGap(28, 28, 28)
                 .addComponent(graphe)
-                .addGap(30, 30, 30))
+                .addGap(32, 32, 32))
         );
 
         tableModel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -175,37 +197,19 @@ public class EtudiantByCourse extends javax.swing.JInternalFrame {
         ));
         jScrollPane2.setViewportView(tableModel);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2)
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane2)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -213,17 +217,21 @@ public class EtudiantByCourse extends javax.swing.JInternalFrame {
 
     private void listeByCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listeByCourseActionPerformed
 
-         Cours selectedCourse = (Cours) listeByCourse.getSelectedItem();
-    if (selectedCourse != null) {
-        System.out.println("Cours sélectionné : ID = " + selectedCourse.getId() + ", Intitulé = " + selectedCourse.getIntitule());
-        loadStudentsForCourse(selectedCourse);
-    } else {
-        System.out.println("Aucun cours sélectionné.");
-    }
+        Cours selectedCourse = (Cours) listeByCourse.getSelectedItem();
+        if (selectedCourse != null) {
+            System.out.println("Cours sélectionné : ID = " + selectedCourse.getId() + ", Intitulé = " + selectedCourse.getIntitule());
+            loadStudentsForCourse(selectedCourse);
+        } else {
+            System.out.println("Aucun cours sélectionné.");
+        }
     }//GEN-LAST:event_listeByCourseActionPerformed
 
     private void grapheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_grapheActionPerformed
-       DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        // Initialiser les services
+        CoursService cs = new CoursService();
+        InscriptionService is = new InscriptionService();
 
         // Récupérer tous les cours
         List<Cours> allCourses = cs.findAll();
@@ -241,12 +249,12 @@ public class EtudiantByCourse extends javax.swing.JInternalFrame {
 
         // Créer le diagramme à barres
         JFreeChart barChart = ChartFactory.createBarChart(
-            "Nombre d'étudiants par cours", // Titre du graphique
-            "Cours", // Axe X
-            "Nombre d'étudiants", // Axe Y
-            dataset, // Données
-            PlotOrientation.VERTICAL, // Orientation
-            true, true, false // Inclure légende, tooltips, URLs
+                "Nombre d'étudiants par cours", // Titre du graphique
+                "Cours", // Axe X
+                "Nombre d'étudiants", // Axe Y
+                dataset, // Données
+                PlotOrientation.VERTICAL, // Orientation
+                true, true, false // Inclure légende, tooltips, URLs
         );
 
         // Créer un panel pour afficher le graphique
@@ -260,7 +268,6 @@ public class EtudiantByCourse extends javax.swing.JInternalFrame {
         frame.pack();
         frame.setLocationRelativeTo(null); // Centrer la fenêtre
         frame.setVisible(true);
-      // TODO add your handling code here:
     }//GEN-LAST:event_grapheActionPerformed
 
 
@@ -268,8 +275,8 @@ public class EtudiantByCourse extends javax.swing.JInternalFrame {
     private javax.swing.JButton graphe;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JComboBox listeByCourse;
     private javax.swing.JTable tableModel;

@@ -23,7 +23,6 @@ import java.util.List;
  */
 public class InscriptionForm extends javax.swing.JInternalFrame {
 
-  
     private InscriptionService inscriptionService;
     private CoursService coursService;
     private EtudiantService etudiantService;
@@ -34,20 +33,20 @@ public class InscriptionForm extends javax.swing.JInternalFrame {
      */
     public InscriptionForm() {
         initComponents();
-       inscriptionService = new InscriptionService();
+        inscriptionService = new InscriptionService();
         coursService = new CoursService();
         etudiantService = new EtudiantService();
-        
+
         // Initialisation correcte de tableModel
         tableModel = (DefaultTableModel) jTable.getModel();
-        
+
         loadCours();
         loadEtudiants();
         loadInscriptions();
 
     }
 
- private void loadCours() {
+    private void loadCours() {
         txtCours.removeAllItems();
         for (Cours cours : coursService.findAll()) {
             txtCours.addItem(cours);
@@ -104,7 +103,7 @@ public class InscriptionForm extends javax.swing.JInternalFrame {
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 3, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 204));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/book.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/images/book.png"))); // NOI18N
         jLabel1.setText("Cours:");
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 3, 18)); // NOI18N

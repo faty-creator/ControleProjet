@@ -5,26 +5,21 @@
  */
 package gui;
 
-import java.util.Random;
+import beans.User;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
 import services.UserService;
-
-
+import gui.MDIApplication;
 
 public class Main extends javax.swing.JFrame {
 
     /**
      * Creates new form Main
      */
-     public Main() {
-         initComponents();
+    public Main() {
+        initComponents();
         this.setTitle("Authentification");
         this.setLocationRelativeTo(null);
     }
-
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -43,6 +38,9 @@ public class Main extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         bnConnexion = new javax.swing.JButton();
         motpass = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
 
@@ -52,10 +50,10 @@ public class Main extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 1, 24), new java.awt.Color(0, 51, 204))); // NOI18N
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Connexion", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Times New Roman", 1, 48), new java.awt.Color(0, 0, 204))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Times New Roman", 1, 48), new java.awt.Color(0, 0, 204))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 3, 18)); // NOI18N
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/icons8-login-16.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/images/icons8-login-16.png"))); // NOI18N
         jLabel1.setText(" login :");
 
         txtLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -71,11 +69,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 3, 18)); // NOI18N
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/icons8-password-16.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/images/icons8-password-16.png"))); // NOI18N
         jLabel2.setText(" Mot de passe :");
 
+        bnConnexion.setBackground(new java.awt.Color(255, 204, 255));
         bnConnexion.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        bnConnexion.setForeground(new java.awt.Color(0, 0, 204));
         bnConnexion.setText("Connexion");
         bnConnexion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -83,8 +81,8 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        motpass.setBackground(new java.awt.Color(153, 153, 255));
-        motpass.setFont(new java.awt.Font("Tahoma", 3, 13)); // NOI18N
+        motpass.setBackground(new java.awt.Color(255, 204, 255));
+        motpass.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
         motpass.setText("mot de passe oublie");
         motpass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -92,74 +90,113 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setFont(new java.awt.Font("Times New Roman", 2, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel5.setText("Connexion à votre avenir !");
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 3, 48)); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/images/connexion.png"))); // NOI18N
+        jLabel6.setText("CONNEXION");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtPassWord, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtLogin)
                     .addComponent(bnConnexion, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(motpass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(39, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel5)
+                .addGap(142, 142, 142))
+            .addComponent(txtLogin)
+            .addComponent(txtPassWord)
+            .addComponent(motpass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(117, 117, 117)
+                .addGap(82, 82, 82)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addGap(70, 70, 70)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(54, 54, 54)
+                .addGap(49, 49, 49)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(txtPassWord, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addComponent(bnConnexion)
-                .addGap(57, 57, 57)
-                .addComponent(motpass, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(31, 31, 31)
+                .addComponent(motpass, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
-        jPanel3.setBackground(new java.awt.Color(0, 0, 255));
-
-        jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\pc\\Documents\\NetBeansProjects\\ÉtudiantsInscriptions\\src\\gui\\images\\logo1.jpeg")); // NOI18N
-        jLabel4.setText("jLabel4");
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/images/logo.jpg"))); // NOI18N
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 601, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGap(0, 496, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGap(0, 0, Short.MAX_VALUE)
         );
+
+        jLabel4.setFont(new java.awt.Font("French Script MT", 3, 36)); // NOI18N
+        jLabel4.setText("Explorez, apprenez, réussissez !");
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel4)
+                        .addGap(61, 61, 61))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(507, 507, 507)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel4)
+                        .addGap(31, 31, 31)))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -172,71 +209,82 @@ public class Main extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLoginActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtLoginActionPerformed
+    private void motpassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_motpassActionPerformed
+        String login = JOptionPane.showInputDialog(this, "Entrez votre login :");
+
+        if (login != null && !login.isEmpty()) {
+            UserService userService = new UserService();
+            User user = userService.findUserByLogin(login);
+
+            if (user != null) {
+                String securityAnswer = JOptionPane.showInputDialog(this,
+                        "Question secrète : " + user.getSecurityQuestion() + "\n\nEntrez votre réponse :");
+
+                if (securityAnswer != null && !securityAnswer.isEmpty()) {
+                    // Utilisation de la méthode resetPasswordBySecurityQuestion modifiée
+                    if (userService.resetPasswordBySecurityQuestion(login, securityAnswer)) {
+                        // L'envoi de l'e-mail est géré dans resetPasswordBySecurityQuestion
+                        JOptionPane.showMessageDialog(this, "Un nouveau mot de passe a été envoyé à votre adresse e-mail.");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Réponse incorrecte à la question secrète.");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Veuillez entrer la réponse à la question secrète.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Utilisateur non trouvé.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Veuillez entrer votre login.");
+        }
+    }//GEN-LAST:event_motpassActionPerformed
 
     private void bnConnexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bnConnexionActionPerformed
-   String login = txtLogin.getText().trim();
-    String password = new String(txtPassWord.getPassword()).trim();
+        String login = txtLogin.getText().trim();
+        String password = new String(txtPassWord.getPassword()).trim(); // Correction ici : txtPassWord au lieu de txtPassword
 
-    UserService userService = new UserService();
+        UserService userService = new UserService();
 
-    if (userService.authenticate(login, password)) {
-        // Afficher un message de bienvenue
-        JOptionPane.showMessageDialog(this, "Bienvenue sur notre plateforme, " + login + "!");
-
-        MDIApplication mdi = MDIApplication.getInstance();
-        mdi.setVisible(true);
-        this.setVisible(false); // Masquer le formulaire de connexion
-    } else {
-        JOptionPane.showMessageDialog(this, "Login ou mot de passe incorrect");
-    }
-
-            
+        if (userService.authenticate(login, password)) {
+            // Instanciation de MDIApplication
+            MDIApplication mdi = new MDIApplication(); // Ou utilisez MDIApplication.getInstance() si c'est un singleton
+            mdi.setVisible(true);
+            this.setVisible(false); // Masquer la fenêtre de connexion
+        } else {
+            JOptionPane.showMessageDialog(this, "Login ou mot de passe incorrect");
+        }
     }//GEN-LAST:event_bnConnexionActionPerformed
 
     private void txtPassWordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassWordActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPassWordActionPerformed
 
-    private void motpassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_motpassActionPerformed
-         String login = txtLogin.getText().trim();
-
-        if (login.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Veuillez entrer votre login pour réinitialiser le mot de passe.");
-            txtLogin.requestFocus();
-            return;
-        }
-
-        UserService userService = new UserService();
-        String temporaryPassword = userService.resetPassword(login);
-
-        if (temporaryPassword != null) {
-            JTextField passwordField = new JTextField(temporaryPassword);
-            passwordField.setEditable(true);
-            passwordField.setSelectionStart(0);
-            passwordField.setSelectionEnd(temporaryPassword.length());
-
-            Object[] message = {
-                "Votre mot de passe temporaire est :", passwordField,
-                "Veuillez le copier puis le coller dans le champ de mot de passe pour vous connecter."
-            };
-
-            JOptionPane.showMessageDialog(this, message, "Mot de passe temporaire", JOptionPane.INFORMATION_MESSAGE);
-            txtPassWord.requestFocus();
+    private void txtLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLoginActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtLoginActionPerformed
+    private boolean isMoved = false;
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        if (!isMoved) {
+            // Déplacer le formulaire vers la droite et le logo vers la gauche
+            jPanel2.setLocation(jPanel2.getX() + 200, jPanel2.getY()); // Déplacement vers la droite
+            jLabel3.setLocation(jLabel3.getX() - 200, jLabel3.getY()); // Déplacement vers la gauche
         } else {
-            JOptionPane.showMessageDialog(this, "Utilisateur non trouvé.");
-            txtLogin.requestFocus();
+            // Ramener le formulaire et le logo à leur position d'origine
+            jPanel2.setLocation(jPanel2.getX() - 200, jPanel2.getY()); // Retour à la position d'origine
+            jLabel3.setLocation(jLabel3.getX() + 200, jLabel3.getY()); // Retour à la position d'origine
         }
 
-    }//GEN-LAST:event_motpassActionPerformed
+        // Inverser l'état de la transition
+        isMoved = !isMoved;
+    }//GEN-LAST:event_jLabel4MouseClicked
 
     /**
      * @param args the command line arguments
@@ -274,20 +322,17 @@ public class Main extends javax.swing.JFrame {
     }
 
     private String generateTemporaryPassword() {
-    String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    Random random = new Random();
-    StringBuilder sb = new StringBuilder(8);
-    for (int i = 0; i < 8; i++) {
-        sb.append(chars.charAt(random.nextInt(chars.length())));
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    return sb.toString();
-}
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bnConnexion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -296,5 +341,4 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtPassWord;
     // End of variables declaration//GEN-END:variables
 
-   
 }

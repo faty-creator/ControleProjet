@@ -6,13 +6,28 @@
 package gui;
 
 import javax.swing.JOptionPane;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.chart.plot.PlotOrientation;
+import javax.swing.JFrame;
+import services.CoursService;
+import services.InscriptionService;
+import beans.Cours;
+import beans.Etudiant;
+import java.util.List;
+import javax.swing.JDesktopPane;
+import javax.swing.JInternalFrame;
 
 /**
  *
  * @author pc
  */
 public class MDIApplication extends javax.swing.JFrame {
-private static MDIApplication instance;
+
+    private static MDIApplication instance;
+
     /**
      * Creates new form MDIApplication
      */
@@ -21,14 +36,24 @@ private static MDIApplication instance;
         this.setTitle("Gestion des Étudiants et Inscriptions");
         this.setExtendedState(MAXIMIZED_BOTH);
 
+        desktopPane = new JDesktopPane();
+        setContentPane(desktopPane);
+
     }
+
     public static MDIApplication getInstance() {
         if (instance == null) {
             instance = new MDIApplication();
         }
         return instance;
     }
-    
+
+    private void fermerFenetresExistantes(JDesktopPane desktop) {
+        for (JInternalFrame frame : desktop.getAllFrames()) {
+            frame.dispose();
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,7 +75,6 @@ private static MDIApplication instance;
         jMenuItem1 = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         contentMenuItem = new javax.swing.JMenuItem();
-        aboutMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -120,15 +144,16 @@ private static MDIApplication instance;
         menuBar.add(editMenu);
 
         helpMenu.setMnemonic('h');
-        helpMenu.setText("Help");
+        helpMenu.setText("Statistique");
 
         contentMenuItem.setMnemonic('c');
-        contentMenuItem.setText("Contents");
+        contentMenuItem.setText("Nombre d’étudiants par cours (Bar chart)");
+        contentMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contentMenuItemActionPerformed(evt);
+            }
+        });
         helpMenu.add(contentMenuItem);
-
-        aboutMenuItem.setMnemonic('a');
-        aboutMenuItem.setText("About");
-        helpMenu.add(aboutMenuItem);
 
         menuBar.add(helpMenu);
 
@@ -149,6 +174,7 @@ private static MDIApplication instance;
     }// </editor-fold>//GEN-END:initComponents
 
     private void MenuCoursActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuCoursActionPerformed
+        fermerFenetresExistantes(desktopPane);
         CoursForm cf = new CoursForm();
         desktopPane.add(cf);
         cf.setVisible(true);
@@ -157,18 +183,21 @@ private static MDIApplication instance;
     }//GEN-LAST:event_MenuCoursActionPerformed
 
     private void MenuEtudiantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuEtudiantActionPerformed
+        fermerFenetresExistantes(desktopPane);
         EtudiantForm ef = new EtudiantForm();
         desktopPane.add(ef);
         ef.setVisible(true);
     }//GEN-LAST:event_MenuEtudiantActionPerformed
 
     private void cutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cutMenuItemActionPerformed
-        EtudiantByCourse ebs = new EtudiantByCourse();
+        fermerFenetresExistantes(desktopPane);
+        EtudiantByCourse ebs = EtudiantByCourse.getInstance();
         desktopPane.add(ebs);
         ebs.setVisible(true);
     }//GEN-LAST:event_cutMenuItemActionPerformed
 
     private void MenuInscriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuInscriptionActionPerformed
+        fermerFenetresExistantes(desktopPane);
         InscriptionForm is = new InscriptionForm();
         desktopPane.add(is);
         is.setVisible(true);
@@ -176,20 +205,66 @@ private static MDIApplication instance;
     }//GEN-LAST:event_MenuInscriptionActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        fermerFenetresExistantes(desktopPane);
         CourseByStudent cs = new CourseByStudent();
         desktopPane.add(cs);
         cs.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void copyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyMenuItemActionPerformed
-    EtudiantByName en=new EtudiantByName();
+        fermerFenetresExistantes(desktopPane);
+        EtudiantByName en = EtudiantByName.getInstance();
         desktopPane.add(en);
         en.setVisible(true);    }//GEN-LAST:event_copyMenuItemActionPerformed
+
+    private void contentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentMenuItemActionPerformed
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        // Initialiser les services
+        CoursService cs = new CoursService();
+        InscriptionService is = new InscriptionService();
+
+        // Récupérer tous les cours
+        List<Cours> allCourses = cs.findAll();
+
+        if (allCourses != null) {
+            for (Cours cours : allCourses) {
+                // Récupérer les étudiants inscrits à ce cours
+                List<Etudiant> etudiants = is.findEtudiantByCourse(cours);
+                if (etudiants != null) {
+                    int count = etudiants.size(); // Nombre d'étudiants
+                    dataset.addValue(count, "Étudiants", cours.getIntitule()); // Ajouter au dataset
+                }
+            }
+        }
+
+        // Créer le diagramme à barres
+        JFreeChart barChart = ChartFactory.createBarChart(
+                "Nombre d'étudiants par cours", // Titre du graphique
+                "Cours", // Axe X
+                "Nombre d'étudiants", // Axe Y
+                dataset, // Données
+                PlotOrientation.VERTICAL, // Orientation
+                true, true, false // Inclure légende, tooltips, URLs
+        );
+
+        // Créer un panel pour afficher le graphique
+        ChartPanel chartPanel = new ChartPanel(barChart);
+        chartPanel.setPreferredSize(new java.awt.Dimension(560, 367));
+
+        // Afficher le graphique dans une nouvelle fenêtre
+        JFrame frame = new JFrame("Graphique des étudiants par cours");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.getContentPane().add(chartPanel);
+        frame.pack();
+        frame.setLocationRelativeTo(null); // Centrer la fenêtre
+        frame.setVisible(true);
+    }//GEN-LAST:event_contentMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
      */
-      public static void main(String args[]) {
+    public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -207,13 +282,11 @@ private static MDIApplication instance;
     }
 
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu CoursMenu;
     private javax.swing.JMenuItem MenuCours;
     private javax.swing.JMenuItem MenuEtudiant;
     private javax.swing.JMenuItem MenuInscription;
-    private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JMenuItem contentMenuItem;
     private javax.swing.JMenuItem copyMenuItem;
     private javax.swing.JMenuItem cutMenuItem;
