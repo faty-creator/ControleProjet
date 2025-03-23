@@ -1,11 +1,37 @@
 # Gestion des Étudiants et Inscriptions
 
-## Contexte :
+## FAeducation:
+<div align="center">
+  <img src="src/gui/images/logo.jpg" width="300" alt="EduXGame Logo">
+</div>
+
+est une plateforme de gestion des étudiants et des inscriptions
+
+
+---
+
+## 📁 Table de matieres
+
+- [🗂 Contexte](#-Contexte)
+- [❓ Problématique](#-Problématique)
+- [🎯 Objectif](#-Objectif)
+- [📊 Diagrammes](#-Diagrammes)
+- [🗃 Tables de Données](#-Tables-de-Données)
+- [✨ Fonctionnalités Principales](#-Fonctionnalités-Principales)
+- [🔍 Requêtes SQL](#-Requêtes-SQL)
+- [🏛 Architecture](#-Architecture)
+- [🛠 Technologies Utilisées](#-Technologies-Utilisées)
+- [🎥 Démo Vidéo](#-Démo-Vidéo)
+- [📁 .exe](#-.exe)
+
+---
+
+## 🗂 Contexte :
 
 Dans le cadre de la gestion académique, il est essentiel d'assurer un suivi efficace des étudiants et de leurs inscriptions aux cours. Les méthodes traditionnelles de gestion manuelle ou basées sur des fichiers statiques peuvent conduire à des erreurs, une perte de temps et une mauvaise organisation. Un système informatisé permettrait une gestion plus fluide et efficace des inscriptions aux cours, tout en offrant une meilleure expérience aux étudiants et aux administrateurs.
 
 ---
-## Problématique:
+## ❓ Problématique:
 
 Les universités et institutions académiques rencontrent souvent des difficultés dans la gestion des inscriptions aux cours. Les systèmes obsolètes ou la gestion manuelle peuvent engendrer :
 
@@ -19,7 +45,7 @@ Une expérience utilisateur peu optimisée pour les administrateurs et les étud
 
 
 ---
-## Objectif:
+## 🎯 Objectif:
 
 L'objectif de ce projet est de développer une application qui facilite la gestion des étudiants et de leurs inscriptions aux cours.
 
@@ -36,17 +62,17 @@ Offrir des outils de recherche et de filtrage avancés pour une meilleure expér
 Fournir une visualisation claire des inscriptions aux cours.
 
 ---
-## Diagramme use case:
+## 📊 Diagramme use case:
 
 ![Diagramme use case ](diagrammeArchitectureImages/usaCase.png) 
 
 ---
-## Diagramme de classe :
+## 📊 Diagramme de classe :
 
-![Diagramme de classe  ](diagrammeArchitectureImages/classe.png) 
+![Diagramme de classe  ](diagrammeArchitectureImages/ClassDiagramme.png) 
 
 ---
-## Tables de Données:
+## 🗃 Tables de Données:
 
 Etudiant (id, nom, prénom, date_naissance, email)
 
@@ -56,7 +82,7 @@ Inscription ( etudiant_id, cours_id, date_inscription)
 
 
 ---
-## Fonctionnalités Principales:
+## ✨ Fonctionnalités Principales:
 
 ### 1. Gestion des étudiants
 - **Ajouter un étudiant** : Formulaire pour saisir le nom, prénom, date de naissance, etc.
@@ -76,7 +102,7 @@ Inscription ( etudiant_id, cours_id, date_inscription)
 
 
 ---
-##  Requêtes sql pour la Base de Données
+##  🔍 Requêtes sql pour la Base de Données
 
 ### Tables
 
@@ -116,12 +142,12 @@ CREATE TABLE user (
 ) ;
 ```
 
-## Architecture:
+## 🏛  Architecture:
 
 ![Architecture  ](diagrammeArchitectureImages/Architecture.png) 
 
 ---
-## Technologies Utilisées:
+## 🛠 Technologies Utilisées:
 
 - **Framework d'interface graphique :** Java Swing
 - **Base de données :** MySQL
@@ -134,8 +160,4 @@ StarUml (Outil de diagramme)
 
 ---
 
-## Démo video 
-
-<!-- [📹 Regarder la vidéo ici](https://drive.google.com/file/d/1GPnatszRJWtYEBcoDxUjVFXCQEn9gsvQ/view?usp=sharing) -->
-
-[📹 Regarder la vidéo ici](https://drive.google.com/file/d/1HI9v9djzThKKF6Skl30ekqg8j8pKZi_C/view?usp=sharing)
+## 🎥 Démo video 
